@@ -1,0 +1,630 @@
+/* =========================================================
+   $CDM — the ball that never stops rolling
+   Stylesheet
+   Palette:
+     --bg:       #0a0a0a   near-black
+     --bg-soft:  #121110   faint warm black
+     --gold:     #c8a96a   soft amber
+     --gold-soft:#8a7548   muted gold for body
+     --text:     #e8e3d8   warm white
+     --text-dim: #6b6557   faded text
+   ========================================================= */
+
+:root {
+  --bg:        #0a0a0a;
+  --bg-soft:   #121110;
+  --gold:      #c8a96a;
+  --gold-soft: #8a7548;
+  --gold-bright:#e3c688;
+  --text:      #e8e3d8;
+  --text-dim:  #6b6557;
+  --rule:      rgba(200, 169, 106, 0.14);
+
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-body:    "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --max-w: 720px;
+  --max-w-wide: 960px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(200, 169, 106, 0.25);
+  color: var(--gold-bright);
+}
+
+/* ===== Grain overlay ===== */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78 0 0 0 0 0.66 0 0 0 0 0.41 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+}
+
+/* ===== Progress line ===== */
+.progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(200, 169, 106, 0.08);
+  z-index: 99;
+}
+.progress-line span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width 0.15s linear;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem 4rem;
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 30%, rgba(200, 169, 106, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 90%, rgba(200, 169, 106, 0.03) 0%, transparent 70%);
+}
+
+.hero-inner {
+  max-width: var(--max-w);
+  width: 100%;
+}
+
+.ball-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 3.5rem;
+}
+
+.ball {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #f3dca0 0%, #c8a96a 35%, #6e5a30 80%, #2a2114 100%);
+  box-shadow:
+    0 0 40px rgba(200, 169, 106, 0.25),
+    inset -8px -10px 20px rgba(0, 0, 0, 0.5),
+    inset 4px 4px 12px rgba(243, 220, 160, 0.3);
+  animation: ballPulse 6s ease-in-out infinite;
+}
+
+.ball-shadow {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(200, 169, 106, 0.18) 0%, transparent 70%);
+  filter: blur(3px);
+  animation: shadowPulse 6s ease-in-out infinite;
+}
+
+@keyframes ballPulse {
+  0%, 100% { transform: translateY(0); box-shadow: 0 0 40px rgba(200, 169, 106, 0.25), inset -8px -10px 20px rgba(0,0,0,0.5), inset 4px 4px 12px rgba(243,220,160,0.3); }
+  50%      { transform: translateY(-3px); box-shadow: 0 0 60px rgba(200, 169, 106, 0.4), inset -8px -10px 20px rgba(0,0,0,0.5), inset 4px 4px 12px rgba(243,220,160,0.3); }
+}
+
+@keyframes shadowPulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 0.3; transform: translateX(-50%) scale(0.85); }
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(5rem, 18vw, 11rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  color: var(--gold-bright);
+  letter-spacing: 0.02em;
+}
+
+.scroll-cue {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 4rem;
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  transition: color 0.4s ease;
+}
+.scroll-cue:hover { color: var(--gold); }
+.scroll-cue .line {
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
+  animation: lineDrop 2.5s ease-in-out infinite;
+}
+@keyframes lineDrop {
+  0%, 100% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  50%      { transform: scaleY(0.4); transform-origin: top; opacity: 0.4; }
+}
+
+/* =========================================================
+   CHAPTERS
+   ========================================================= */
+.chapter {
+  padding: 9rem 1.5rem;
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+
+.chapter-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.5rem;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  text-indent: 0.5em;
+}
+
+.chapter-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 2.5rem;
+}
+
+.chapter-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.15rem;
+  color: var(--gold-soft);
+  margin-bottom: 3.5rem;
+  letter-spacing: 0.02em;
+}
+
+.prose p {
+  margin-bottom: 1.75rem;
+  color: var(--text);
+}
+.prose p:last-child {
+  color: var(--gold-bright);
+  font-style: italic;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin-top: 2.5rem;
+}
+
+/* =========================================================
+   VI — THE LAW
+   ========================================================= */
+.chapter-law .chapter-inner { max-width: var(--max-w-wide); }
+
+.laws {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.law {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 2.25rem 0;
+  border-top: 1px solid var(--rule);
+}
+.law:last-child { border-bottom: 1px solid var(--rule); }
+
+.law-num {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.law-name {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.85rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.005em;
+}
+
+.law-desc {
+  display: block;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--text-dim);
+  font-weight: 300;
+}
+
+/* =========================================================
+   VII — THE NUMBER
+   ========================================================= */
+.chapter-numbers .chapter-inner { max-width: var(--max-w-wide); }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  margin-top: 1rem;
+  border: 1px solid var(--rule);
+}
+
+.stat {
+  background: var(--bg);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 180px;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  color: var(--gold-bright);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.stat-value .pct {
+  font-size: 0.7em;
+  color: var(--gold-soft);
+  margin-left: 2px;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* =========================================================
+   VIII — THE RITUAL
+   ========================================================= */
+.chapter-ritual .chapter-inner { max-width: var(--max-w-wide); }
+
+.ritual {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 2.5rem;
+  padding: 3rem 0;
+  border-top: 1px solid var(--rule);
+  align-items: start;
+}
+.step:last-child { border-bottom: 1px solid var(--rule); }
+
+.step-num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 2.5rem;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.step-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.65rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  letter-spacing: 0.005em;
+}
+
+.step-desc {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 540px;
+}
+
+/* =========================================================
+   IX — YOURS
+   ========================================================= */
+.chapter-yours .chapter-inner { max-width: var(--max-w); }
+
+.contract-block {
+  margin: 1rem 0 4rem;
+  padding: 2.5rem;
+  border: 1px solid var(--rule);
+  background: rgba(200, 169, 106, 0.02);
+}
+
+.contract-label {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+}
+
+.contract-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#contract-address {
+  flex: 1 1 auto;
+  font-family: "Courier New", monospace;
+  font-size: 0.95rem;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  word-break: break-all;
+  background: transparent;
+}
+
+#copy-btn {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid var(--gold-soft);
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+#copy-btn:hover {
+  background: rgba(200, 169, 106, 0.08);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+#copy-btn .copy-done {
+  display: none;
+  color: var(--gold-bright);
+}
+#copy-btn.copied .copy-label { display: none; }
+#copy-btn.copied .copy-done { display: inline; }
+
+.contract-note {
+  margin-top: 1.5rem;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+.disclaimer {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--rule);
+}
+
+.disclaimer-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--gold-bright);
+  margin-bottom: 1.75rem;
+}
+
+.disclaimer p {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer {
+  padding: 6rem 1.5rem 5rem;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(200, 169, 106, 0.04) 0%, transparent 70%);
+}
+
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.footer-ball {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.75rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.footer-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.15rem;
+  color: var(--text);
+  margin-bottom: 2.5rem;
+}
+
+.footer-meta {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 3rem;
+}
+
+.back-to-top {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+.back-to-top:hover { border-bottom-color: var(--gold); }
+
+/* =========================================================
+   SCROLL ANIMATIONS
+   ========================================================= */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children slightly */
+.chapter .fade-in:nth-child(2) { transition-delay: 0.08s; }
+.chapter .fade-in:nth-child(3) { transition-delay: 0.16s; }
+.chapter .fade-in:nth-child(4) { transition-delay: 0.24s; }
+
+.laws .fade-in,
+.stats .fade-in,
+.ritual .fade-in {
+  transition-delay: 0s;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  body { font-size: 16px; }
+
+  .chapter { padding: 6rem 1.25rem; }
+
+  .ball-wrap { width: 90px; height: 90px; margin-bottom: 2.5rem; }
+
+  .eyebrow { font-size: 10px; letter-spacing: 0.35em; margin-bottom: 2rem; }
+  .title { font-size: clamp(4rem, 22vw, 7rem); }
+
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat { min-height: 150px; padding: 2rem 1rem; }
+
+  .law {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1.75rem 0;
+  }
+  .law-name { font-size: 1.5rem; }
+
+  .step {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2.25rem 0;
+  }
+  .step-num { font-size: 2rem; }
+
+  .contract-block { padding: 1.75rem; }
+  #contract-address { font-size: 0.85rem; }
+  #copy-btn { width: 100%; margin-top: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .stats { grid-template-columns: 1fr; }
+  .numeral { font-size: 1.25rem; letter-spacing: 0.4em; }
+  .chapter-title { font-size: 2.25rem; }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .fade-in { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+}
