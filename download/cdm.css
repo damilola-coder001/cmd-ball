@@ -185,7 +185,7 @@ body {
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--text);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .subtitle {
@@ -202,7 +202,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 4rem;
+  margin-top: 3rem;
   text-decoration: none;
   color: var(--text-dim);
   font-size: 10px;
@@ -241,10 +241,10 @@ body {
   font-family: var(--font-display);
   font-weight: 300;
   font-size: 1.5rem;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.08em;
   color: var(--gold);
   margin-bottom: 2rem;
-  text-indent: 0.5em;
+  text-indent: 0;
 }
 
 .chapter-title {
@@ -270,6 +270,8 @@ body {
 .prose p {
   margin-bottom: 1.75rem;
   color: var(--text);
+  text-wrap: pretty;
+  hyphens: auto;
 }
 .prose p:last-child {
   color: var(--gold-bright);
@@ -278,6 +280,8 @@ body {
   font-size: 1.3rem;
   line-height: 1.5;
   margin-top: 2.5rem;
+  text-wrap: balance;
+  hyphens: none;
 }
 
 /* =========================================================
@@ -607,7 +611,7 @@ body {
 
 /* Inline chapter image (Path chapter) */
 .chapter-image {
-  margin: 4rem 0 1rem;
+  margin: 5rem 0 1rem;
   position: relative;
   overflow: hidden;
   border: 1px solid var(--rule);
@@ -629,8 +633,9 @@ body {
   font-size: 0.95rem;
   color: var(--text-dim);
   text-align: center;
-  margin-top: 1.25rem;
+  margin-top: 1.75rem;
   letter-spacing: 0.02em;
+  text-wrap: balance;
 }
 
 /* Full-bleed atmospheric image (Number + Yours chapters) */
@@ -666,20 +671,12 @@ body {
   pointer-events: none;
 }
 
-/* Ornamental divider between chapters */
-.chapter::before {
-  content: "";
-  display: block;
-  width: 1px;
-  height: 32px;
-  background: linear-gradient(to bottom, transparent, var(--gold-soft), transparent);
-  margin: -4rem auto 3.5rem;
-  opacity: 0.5;
+/* Chapters opening with full-bleed images use the image as the transition */
+.chapter-numbers,
+.chapter-yours {
+  border-top: none;
+  padding-top: 0;
 }
-.chapter:first-of-type::before { display: none; }
-/* Hide divider when chapter opens with a full-bleed image — the image is the transition */
-.chapter-numbers::before,
-.chapter-yours::before { display: none; }
 
 /* Subtle gold rule above each chapter title */
 .chapter-inner {
