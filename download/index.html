@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="$CDM — the ball that never stops rolling. Solana. Fair launch." />
-<meta name="theme-color" content="#0a0a0a" />
+<meta name="theme-color" content="#07060A" />
 <meta name="color-scheme" content="dark" />
 <title>$CDM — the ball that never stops rolling</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,39 +14,98 @@
 </head>
 <body>
 
-<!-- Particle canvas (gold dust) -->
+<!-- ===== SVG icon symbols (defined once, referenced everywhere) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- The Ball — single source of truth for the brand mark -->
+    <radialGradient id="ballGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%"  stop-color="#f3dca0"/>
+      <stop offset="35%" stop-color="#D4AF37"/>
+      <stop offset="80%" stop-color="#6e5a30"/>
+      <stop offset="100%" stop-color="#2a2114"/>
+    </radialGradient>
+    <radialGradient id="ballGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#D4AF37" stop-opacity="0.5"/>
+      <stop offset="50%"  stop-color="#D4AF37" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Full ball (hero, large marks) -->
+    <symbol id="ball" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="42" fill="url(#ballGrad)"/>
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#2a2114" stroke-width="0.5" opacity="0.4"/>
+    </symbol>
+
+    <!-- Ball with glow halo -->
+    <symbol id="ball-glow" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="48" fill="url(#ballGlow)"/>
+      <circle cx="50" cy="50" r="32" fill="url(#ballGrad)"/>
+    </symbol>
+
+    <!-- Ball dot — for rail, bullets, small marks -->
+    <symbol id="ball-dot" viewBox="0 0 20 20">
+      <circle cx="10" cy="10" r="9" fill="url(#ballGrad)"/>
+    </symbol>
+
+    <!-- Trace — the groove left by the ball, used as divider -->
+    <symbol id="trace" viewBox="0 0 200 4">
+      <path d="M 0 2 Q 50 0, 100 2 T 200 2" stroke="#8a7548" stroke-width="1" fill="none" opacity="0.6"/>
+    </symbol>
+
+    <!-- Roll — ball in motion mark -->
+    <symbol id="roll" viewBox="0 0 100 30">
+      <circle cx="20" cy="15" r="8" fill="url(#ballGrad)" opacity="0.3"/>
+      <circle cx="40" cy="15" r="8" fill="url(#ballGrad)" opacity="0.5"/>
+      <circle cx="60" cy="15" r="8" fill="url(#ballGrad)" opacity="0.75"/>
+      <circle cx="80" cy="15" r="9" fill="url(#ballGrad)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Particle canvas (gold dust — the ball's shed material) -->
 <canvas id="particles" aria-hidden="true"></canvas>
 
 <!-- Grain overlay -->
 <div class="grain" aria-hidden="true"></div>
 
-<!-- Side rail -->
+<!-- Rolling ball progress (top edge — a physical groove the ball rolls along) -->
+<div class="progress-track" aria-hidden="true">
+  <div class="progress-groove"></div>
+  <div class="progress-line"></div>
+  <div class="progress-ball">
+    <svg class="progress-ball-icon"><use href="#ball-dot"/></svg>
+  </div>
+</div>
+
+<!-- Side rail — nine balls, one per bounce -->
 <nav class="rail" aria-label="Chapters">
-  <a href="#chapter-1" data-target="chapter-1"><span class="rail-num">I</span></a>
-  <a href="#chapter-2" data-target="chapter-2"><span class="rail-num">II</span></a>
-  <a href="#chapter-3" data-target="chapter-3"><span class="rail-num">III</span></a>
-  <a href="#chapter-4" data-target="chapter-4"><span class="rail-num">IV</span></a>
-  <a href="#chapter-5" data-target="chapter-5"><span class="rail-num">V</span></a>
-  <a href="#chapter-6" data-target="chapter-6"><span class="rail-num">VI</span></a>
-  <a href="#chapter-7" data-target="chapter-7"><span class="rail-num">VII</span></a>
-  <a href="#chapter-8" data-target="chapter-8"><span class="rail-num">VIII</span></a>
-  <a href="#chapter-9" data-target="chapter-9"><span class="rail-num">IX</span></a>
+  <a href="#chapter-1" data-target="chapter-1"><span class="rail-num">I</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-2" data-target="chapter-2"><span class="rail-num">II</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-3" data-target="chapter-3"><span class="rail-num">III</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-4" data-target="chapter-4"><span class="rail-num">IV</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-5" data-target="chapter-5"><span class="rail-num">V</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-6" data-target="chapter-6"><span class="rail-num">VI</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-7" data-target="chapter-7"><span class="rail-num">VII</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-8" data-target="chapter-8"><span class="rail-num">VIII</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
+  <a href="#chapter-9" data-target="chapter-9"><span class="rail-num">IX</span><svg class="rail-ball"><use href="#ball-dot"/></svg></a>
 </nav>
 
-<!-- ============== HERO ============== -->
+<!-- ============== HERO — Bounce 0 / Awakening preview ============== -->
 <header class="hero" id="top">
-  <div class="hero-inner">
-    <p class="hero-label fade-in"><span class="rule"></span>BOUNCE I &mdash; AWAKENING<span class="rule"></span></p>
+  <div class="hero-bg-img" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
 
-    <div class="orb-wrap fade-in">
-      <img src="img/hero-orb.jpg" alt="" class="orb-img" />
-      <div class="orb-glow" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE I &mdash; AWAKENING<svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg></p>
+
+    <div class="hero-orb fade-in">
+      <svg class="hero-orb-svg" viewBox="0 0 200 200"><use href="#ball-glow"/></svg>
     </div>
 
-    <h1 class="title fade-in"><span class="title-gold">$CDM</span></h1>
+    <h1 class="title fade-in"><span class="title-mark">$</span><span class="title-gold">CDM</span></h1>
     <p class="hero-tagline fade-in">THE NINE BOUNCES</p>
     <p class="subtitle fade-in"><em>the ball that never stops rolling.</em></p>
-    <p class="hero-meta fade-in">#CDM &middot; SOLANA &middot; FAIR LAUNCH</p>
+    <p class="hero-meta fade-in">#CDM &nbsp;&middot;&nbsp; SOLANA &nbsp;&middot;&nbsp; FAIR LAUNCH</p>
 
     <div class="hero-cta fade-in">
       <a href="#chapter-9" class="btn btn-primary">GET $CDM</a>
@@ -55,7 +114,7 @@
 
     <a href="#chapter-1" class="scroll-cue fade-in" aria-label="Enter">
       <span>SCROLL</span>
-      <span class="line"></span>
+      <svg class="scroll-line" viewBox="0 0 1 50"><line x1="0.5" y1="0" x2="0.5" y2="50" stroke="#D4AF37" stroke-width="1"/></svg>
     </a>
   </div>
 </header>
@@ -63,9 +122,13 @@
 <main>
 
   <!-- ============== I — AWAKENING ============== -->
-  <section class="chapter chapter-narrative" id="chapter-1">
+  <section class="chapter chapter-image" id="chapter-1">
+    <div class="chapter-bg" data-parallax="0.12">
+      <img src="img/c1-awakening.jpg" alt="A single bronze-gold sphere resting in darkness, the moment before motion begins" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE I &mdash; AWAKENING<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE I &mdash; AWAKENING<span class="label-rule-flex"></span></p>
       <div class="prose fade-in">
         <p class="lead">It did not begin with a hand.</p>
         <p>It did not begin with a throw. There was only the ground, and the ball, and the long quiet before.</p>
@@ -77,9 +140,13 @@
   </section>
 
   <!-- ============== II — THE OMEN ============== -->
-  <section class="chapter chapter-narrative" id="chapter-2">
+  <section class="chapter chapter-image" id="chapter-2">
+    <div class="chapter-bg" data-parallax="0.12">
+      <img src="img/c2-omen.jpg" alt="The ball resting in a worn circular groove in dark stone, evidence of its past passages" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE II &mdash; THE OMEN<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE II &mdash; THE OMEN<span class="label-rule-flex"></span></p>
       <div class="prose fade-in">
         <p class="lead">Before the chain, before the ledger,</p>
         <p>before the first wallet ever opened &mdash; there were signs.</p>
@@ -91,9 +158,13 @@
   </section>
 
   <!-- ============== III — THE COIN ============== -->
-  <section class="chapter chapter-narrative" id="chapter-3">
+  <section class="chapter chapter-image" id="chapter-3">
+    <div class="chapter-bg" data-parallax="0.12">
+      <img src="img/c3-coin.jpg" alt="The ball seen from above, taking on the character of a coin" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE III &mdash; THE COIN<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE III &mdash; THE COIN<span class="label-rule-flex"></span></p>
       <div class="prose fade-in">
         <p class="lead">A ball is a perfect thing.</p>
         <p>No edge to catch, no corner to break, no face to remember or forget. It carries only motion.</p>
@@ -104,13 +175,13 @@
   </section>
 
   <!-- ============== IV — THE PATH ============== -->
-  <section class="chapter chapter-image-bleed" id="chapter-4">
+  <section class="chapter chapter-image" id="chapter-4">
     <div class="chapter-bg" data-parallax="0.15">
-      <img src="img/path-groove.jpg" alt="A worn circular groove pressed into dark stone" loading="lazy" />
+      <img src="img/c4-path.jpg" alt="The ball captured mid-motion, a golden streak trailing behind it" loading="lazy" />
       <div class="chapter-overlay"></div>
     </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE IV &mdash; THE PATH<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE IV &mdash; THE PATH<span class="label-rule-flex"></span></p>
       <div class="prose fade-in">
         <p class="lead">Every road the ball has traveled,</p>
         <p>it has traveled once. Every road it will travel, it has already begun.</p>
@@ -121,9 +192,13 @@
   </section>
 
   <!-- ============== V — THE CIRCLE ============== -->
-  <section class="chapter chapter-narrative" id="chapter-5">
+  <section class="chapter chapter-image" id="chapter-5">
+    <div class="chapter-bg" data-parallax="0.12">
+      <img src="img/c5-circle.jpg" alt="The ball tracing a perfect circle, long-exposure ghosting revealing its circular path" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE V &mdash; THE CIRCLE<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE V &mdash; THE CIRCLE<span class="label-rule-flex"></span></p>
       <div class="prose fade-in">
         <p class="lead">There is no team at the center.</p>
         <p>There is no center. There is only the circle &mdash; the shape the ball makes when many hands, none of them knowing the others, agree to let it pass.</p>
@@ -134,9 +209,13 @@
   </section>
 
   <!-- ============== VI — THE LAW ============== -->
-  <section class="chapter chapter-laws" id="chapter-6">
+  <section class="chapter chapter-image" id="chapter-6">
+    <div class="chapter-bg" data-parallax="0.12">
+      <img src="img/c6-law.jpg" alt="The ball half-embedded in carved stone relief, fixed and eternal" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE VI &mdash; THE LAW<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE VI &mdash; THE LAW<span class="label-rule-flex"></span></p>
       <h2 class="section-title fade-in">Four laws. Carved once. Never amended.</h2>
 
       <div class="laws">
@@ -165,13 +244,13 @@
   </section>
 
   <!-- ============== VII — THE NUMBER ============== -->
-  <section class="chapter chapter-numbers" id="chapter-7">
-    <div class="chapter-bg" data-parallax="0.18">
-      <img src="img/gold-dust.jpg" alt="A swirl of fine gold dust suspended in darkness" loading="lazy" />
+  <section class="chapter chapter-image" id="chapter-7">
+    <div class="chapter-bg" data-parallax="0.15">
+      <img src="img/c7-number.jpg" alt="The ball dissolving into gold particles, becoming countable" loading="lazy" />
       <div class="chapter-overlay"></div>
     </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE VII &mdash; THE NUMBER<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE VII &mdash; THE NUMBER<span class="label-rule-flex"></span></p>
       <h2 class="section-title fade-in">The roll, in figures.</h2>
 
       <div class="stats fade-in">
@@ -197,9 +276,13 @@
   </section>
 
   <!-- ============== VIII — THE RITUAL ============== -->
-  <section class="chapter chapter-ritual" id="chapter-8">
+  <section class="chapter chapter-image" id="chapter-8">
+    <div class="chapter-bg" data-parallax="0.12">
+      <img src="img/c8-ritual.jpg" alt="The ball being received into cupped hands emerging from darkness" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE VIII &mdash; THE RITUAL<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE VIII &mdash; THE RITUAL<span class="label-rule-flex"></span></p>
       <h2 class="section-title fade-in">Three steps. Older than the chain.</h2>
 
       <ol class="ritual">
@@ -229,13 +312,13 @@
   </section>
 
   <!-- ============== IX — YOURS ============== -->
-  <section class="chapter chapter-yours" id="chapter-9">
-    <div class="chapter-bg" data-parallax="0.18">
-      <img src="img/horizon.jpg" alt="A single dark sphere on an infinite plain under a starless sky" loading="lazy" />
+  <section class="chapter chapter-image" id="chapter-9">
+    <div class="chapter-bg" data-parallax="0.15">
+      <img src="img/c9-yours.jpg" alt="The ball receding into infinite distance, becoming yours to follow" loading="lazy" />
       <div class="chapter-overlay"></div>
     </div>
     <div class="chapter-inner">
-      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE IX &mdash; YOURS<span class="rule"></span></p>
+      <p class="chapter-label fade-in"><svg class="label-rule" viewBox="0 0 40 1"><line x1="0" y1="0.5" x2="40" y2="0.5" stroke="#8a7548" stroke-width="1"/></svg>BOUNCE IX &mdash; YOURS<span class="label-rule-flex"></span></p>
       <h2 class="section-title-big fade-in"><em>The ninth bounce is yours.</em></h2>
 
       <div class="contract-block fade-in">
@@ -274,7 +357,8 @@
 
 <footer class="footer">
   <div class="footer-inner">
-    <p class="footer-ball">$CDM</p>
+    <svg class="footer-ball"><use href="#ball-glow"/></svg>
+    <p class="footer-ball-text">$CDM</p>
     <p class="footer-line"><em>the ball that never stops rolling.</em></p>
     <p class="footer-meta">&copy; 2024 THE $CDM COMMUNITY &nbsp;&middot;&nbsp; BUILD 1.0 &nbsp;&middot;&nbsp; SOLANA &middot; FAIR LAUNCH</p>
     <a href="#top" class="back-to-top">RETURN TO THE BEGINNING</a>

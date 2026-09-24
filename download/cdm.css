@@ -1,29 +1,37 @@
 /* =========================================================
    $CDM — the ball that never stops rolling
-   Stylesheet (cate.meme structure)
+   Visual System: "The Long Roll"
+   --------------------------------------------------------
+   Design principles:
+   1. The ball is the brand. Every visual element relates
+      to the ball's motion, surface, or trace.
+   2. One palette. One light. One grain. One atmosphere.
+   3. Negative space is the ball's natural habitat.
+   4. The trace (groove) is the divider; the ball is the mark.
    ========================================================= */
 
 :root {
-  --bg:         #07060A;
-  --bg-soft:    #0e0d12;
-  --gold:       #D4AF37;
-  --gold-bright:#E8C766;
-  --gold-soft:  #8a7548;
-  --text:       #ffffff;
-  --text-dim:   #6f6a5d;
-  --text-mid:   #b8b3a5;
-  --rule:       rgba(212, 175, 55, 0.18);
+  --bg:          #07060A;
+  --bg-soft:     #0e0d12;
+  --gold:        #D4AF37;
+  --gold-bright: #E8C766;
+  --gold-soft:   #8a7548;
+  --gold-dim:    #4a3f28;
+  --text:        #ffffff;
+  --text-dim:    #6f6a5d;
+  --text-mid:    #b8b3a5;
+  --rule:        rgba(212, 175, 55, 0.18);
+  --rule-faint:  rgba(212, 175, 55, 0.08);
 
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-body:    "Inter", -apple-system, sans-serif;
   --font-mono:    "JetBrains Mono", "Courier New", monospace;
 
-  --max-w: 760px;
-  --max-w-wide: 1080px;
+  --max-w:       760px;
+  --max-w-wide:  1080px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -42,28 +50,86 @@ body {
 
 ::selection { background: rgba(212, 175, 55, 0.25); color: var(--gold-bright); }
 
-/* ===== Particle canvas ===== */
+/* ===== Particle canvas — gold dust shed by the rolling ball ===== */
 #particles {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
-/* ===== Grain overlay ===== */
+/* ===== Grain — the texture of the ball's surface, applied to the whole page ===== */
 .grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 100;
-  opacity: 0.05;
+  opacity: 0.06;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78 0 0 0 0 0.66 0 0 0 0 0.41 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 200px 200px;
 }
 
-/* ===== Side rail ===== */
+/* ===== Rolling ball progress — a physical groove the ball rolls along ===== */
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  z-index: 99;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(7, 6, 10, 0.95), rgba(7, 6, 10, 0.6) 60%, transparent);
+}
+/* The groove — a thin engraved channel */
+.progress-groove {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right,
+    transparent 0%,
+    var(--gold-dim) 8%,
+    var(--gold-dim) 92%,
+    transparent 100%);
+  opacity: 0.5;
+}
+/* The filled portion — gold dust filling the groove behind the ball */
+.progress-line {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, transparent, var(--gold-soft) 10%, var(--gold) 100%);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+  transition: width 0.15s linear;
+}
+/* The ball itself — rolling along the groove */
+.progress-ball {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  transition: left 0.15s linear;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+}
+.progress-ball-icon {
+  width: 100%;
+  height: 100%;
+  animation: ballSpin 1.5s linear infinite;
+}
+@keyframes ballSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ===== Side rail — nine balls, one per bounce ===== */
 .rail {
   position: fixed;
   right: 2rem;
@@ -73,41 +139,48 @@ body {
   flex-direction: column;
   gap: 1.1rem;
   z-index: 50;
-  list-style: none;
 }
 .rail a {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.6rem;
+  gap: 0.65rem;
   text-decoration: none;
   color: var(--text-dim);
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   transition: color 0.3s ease;
+  position: relative;
 }
-.rail a::before {
-  content: "";
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  border: 1px solid var(--text-dim);
-  background: transparent;
-  transition: all 0.3s ease;
+.rail a:hover .rail-ball {
+  transform: scale(1.4);
+  opacity: 0.8;
+}
+.rail-ball {
+  width: 9px;
+  height: 9px;
+  opacity: 0.35;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 0 transparent);
 }
 .rail a.active {
   color: var(--gold-bright);
 }
-.rail a.active::before {
-  background: var(--gold-bright);
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 8px var(--gold-bright);
+.rail a.active .rail-ball {
+  opacity: 1;
+  width: 12px;
+  height: 12px;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.7));
+  animation: railBounce 2.5s ease-in-out infinite;
+}
+@keyframes railBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
 }
 
 /* =========================================================
-   HERO
+   HERO — Bounce I preview
    ========================================================= */
 .hero {
   min-height: 100vh;
@@ -118,9 +191,27 @@ body {
   padding: 6rem 1.5rem 4rem;
   position: relative;
   z-index: 2;
+  overflow: hidden;
+}
+
+/* Use Awakening image as hero background, darkened */
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  background-image: url("img/c1-awakening.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.35) contrast(1.1) saturate(0.85);
+  z-index: 0;
+}
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background:
-    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(212, 175, 55, 0.10) 0%, transparent 65%),
-    var(--bg);
+    radial-gradient(ellipse 60% 50% at 50% 45%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, var(--bg) 100%);
+  pointer-events: none;
 }
 
 .hero-inner {
@@ -130,74 +221,50 @@ body {
   z-index: 2;
 }
 
-/* Chapter-style label with rules on both sides */
+/* Chapter-style label with rule lines on both sides (used in hero + chapter heads) */
 .hero-label, .chapter-label {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 400;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 1rem;
   margin-bottom: 3rem;
-  text-align: center;
 }
-.hero-label .rule, .chapter-label .rule {
-  display: inline-block;
+.hero-label .label-rule, .chapter-label .label-rule {
   width: 40px;
   height: 1px;
-  background: var(--gold-soft);
+  flex-shrink: 0;
 }
-.chapter-label {
-  justify-content: flex-start;
-  margin-bottom: 3.5rem;
-  text-align: left;
-}
-.chapter-label .rule:last-child {
+.label-rule-flex {
   flex: 1;
-  max-width: 280px;
+  max-width: 200px;
   height: 1px;
-  background: linear-gradient(to right, var(--gold-soft), transparent);
+  background: linear-gradient(to right, var(--gold-soft) 0%, transparent 100%);
 }
 
-/* Orb */
-.orb-wrap {
+/* Hero orb — the ball, rendered from SVG symbol, glowing */
+.hero-orb {
   position: relative;
   width: 200px;
   height: 200px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 2.5rem;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
-.orb-img {
-  position: relative;
+.hero-orb-svg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  z-index: 2;
-  filter: contrast(1.05) saturate(0.95);
-  animation: orbFloat 7s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.35));
+  animation: orbBreathe 7s ease-in-out infinite;
 }
-.orb-glow {
-  position: absolute;
-  inset: -25%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.35) 0%, rgba(212, 175, 55, 0.08) 35%, transparent 70%);
-  filter: blur(20px);
-  z-index: 1;
-  animation: orbGlow 7s ease-in-out infinite;
-}
-@keyframes orbFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-6px) rotate(2deg); }
-}
-@keyframes orbGlow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.1); }
+@keyframes orbBreathe {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.35)); }
+  50%      { transform: scale(1.04); filter: drop-shadow(0 0 60px rgba(212, 175, 55, 0.55)); }
 }
 
 .title {
@@ -207,7 +274,16 @@ body {
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--text);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.05em;
+}
+.title-mark {
+  color: var(--text);
+  font-weight: 300;
+  font-size: 0.6em;
+  margin-right: 0.05em;
 }
 .title-gold { color: var(--gold-bright); }
 
@@ -217,7 +293,7 @@ body {
   letter-spacing: 0.45em;
   color: var(--gold);
   text-transform: uppercase;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .subtitle {
@@ -227,19 +303,18 @@ body {
   font-size: clamp(1.25rem, 3vw, 1.65rem);
   color: var(--text);
   letter-spacing: 0.01em;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .hero-meta {
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.28em;
   color: var(--text-dim);
   text-transform: uppercase;
   margin-bottom: 2.5rem;
 }
 
-/* CTA buttons */
 .hero-cta, .cta-row {
   display: flex;
   justify-content: center;
@@ -294,11 +369,9 @@ body {
   transition: color 0.4s ease;
 }
 .scroll-cue:hover { color: var(--gold); }
-.scroll-cue .line {
-  display: block;
+.scroll-line {
   width: 1px;
   height: 50px;
-  background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
   animation: lineDrop 2.5s ease-in-out infinite;
 }
 @keyframes lineDrop {
@@ -308,6 +381,7 @@ body {
 
 /* =========================================================
    CHAPTERS — common
+   Every chapter has a background image (its moment of the ball)
    ========================================================= */
 .chapter {
   min-height: 100vh;
@@ -316,34 +390,52 @@ body {
   padding: 8rem 1.5rem;
   position: relative;
   z-index: 2;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--rule-faint);
 }
 
 .chapter-inner {
   max-width: var(--max-w);
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
-/* Narrative chapters */
-.chapter-narrative .chapter-inner {
-  max-width: var(--max-w);
-  text-align: center;
-}
-.chapter-narrative .chapter-label {
-  justify-content: center;
-  text-align: center;
-}
-.chapter-narrative .chapter-label .rule:last-child {
-  background: linear-gradient(to right, transparent, var(--gold-soft), transparent);
-  max-width: 80px;
-}
-.chapter-narrative .chapter-label .rule:first-child {
-  background: linear-gradient(to right, transparent, var(--gold-soft));
-  max-width: 80px;
+.chapter-label {
+  justify-content: flex-start;
+  margin-bottom: 3.5rem;
+  text-align: left;
 }
 
-/* Prose */
+/* Background image (the ball's moment) + darkening overlay */
+.chapter-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.chapter-bg img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  filter: brightness(0.42) contrast(1.12) saturate(0.85);
+  will-change: transform;
+}
+.chapter-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      var(--bg) 0%,
+      rgba(7, 6, 10, 0.55) 25%,
+      rgba(7, 6, 10, 0.55) 75%,
+      var(--bg) 100%);
+  pointer-events: none;
+}
+
+/* Prose — narrative typography */
 .prose p {
   font-family: var(--font-display);
   font-weight: 300;
@@ -352,6 +444,7 @@ body {
   color: var(--text-mid);
   margin-bottom: 1.25rem;
   text-wrap: pretty;
+  text-align: center;
 }
 .prose .lead {
   font-size: 2rem;
@@ -375,43 +468,9 @@ body {
 }
 
 /* =========================================================
-   CHAPTER WITH FULL-BLEED BG IMAGE (Path, Number, Yours)
-   ========================================================= */
-.chapter-image-bleed,
-.chapter-numbers,
-.chapter-yours {
-  border-top: none;
-}
-.chapter-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-}
-.chapter-bg img {
-  position: absolute;
-  inset: -8% 0;
-  width: 100%;
-  height: 116%;
-  object-fit: cover;
-  filter: brightness(0.40) contrast(1.15) saturate(0.85);
-  will-change: transform;
-}
-.chapter-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom,
-      var(--bg) 0%,
-      rgba(7, 6, 10, 0.55) 25%,
-      rgba(7, 6, 10, 0.55) 75%,
-      var(--bg) 100%);
-  pointer-events: none;
-}
-
-/* =========================================================
    VI — THE LAW
    ========================================================= */
+.chapter-law .chapter-inner,
 .chapter-laws .chapter-inner { max-width: var(--max-w-wide); }
 
 .section-title {
@@ -434,7 +493,8 @@ body {
   border: 1px solid var(--rule);
 }
 .law {
-  background: var(--bg);
+  background: rgba(7, 6, 10, 0.7);
+  backdrop-filter: blur(8px);
   padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
@@ -476,7 +536,8 @@ body {
   border: 1px solid var(--rule);
 }
 .stat {
-  background: rgba(7, 6, 10, 0.6);
+  background: rgba(7, 6, 10, 0.7);
+  backdrop-filter: blur(8px);
   padding: 2.5rem 1.25rem;
   text-align: center;
   display: flex;
@@ -484,7 +545,6 @@ body {
   gap: 0.6rem;
   min-height: 140px;
   justify-content: center;
-  backdrop-filter: blur(4px);
 }
 .stat-value {
   font-family: var(--font-display);
@@ -513,7 +573,7 @@ body {
 }
 
 /* =========================================================
-   VIII — THE RITUAL
+   VIII — THE RITUAL — timeline with ball nodes
    ========================================================= */
 .chapter-ritual .chapter-inner { max-width: var(--max-w-wide); }
 
@@ -522,7 +582,7 @@ body {
   position: relative;
   padding-left: 2rem;
 }
-/* Timeline connector */
+/* The trace — vertical line connecting the three steps */
 .ritual::before {
   content: "";
   position: absolute;
@@ -557,6 +617,7 @@ body {
   position: relative;
   z-index: 2;
   margin-left: -28px;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
 }
 .step-body { padding-top: 0.5rem; }
 .step-title {
@@ -580,17 +641,6 @@ body {
    IX — YOURS
    ========================================================= */
 .chapter-yours .chapter-inner { max-width: var(--max-w); text-align: center; }
-.chapter-yours .chapter-label {
-  justify-content: center;
-}
-.chapter-yours .chapter-label .rule:last-child {
-  background: linear-gradient(to right, transparent, var(--gold-soft), transparent);
-  max-width: 80px;
-}
-.chapter-yours .chapter-label .rule:first-child {
-  background: linear-gradient(to right, transparent, var(--gold-soft));
-  max-width: 80px;
-}
 
 .section-title-big {
   font-family: var(--font-display);
@@ -607,8 +657,8 @@ body {
   margin: 0 auto 3rem;
   padding: 2rem;
   border: 1px solid var(--rule);
-  background: rgba(7, 6, 10, 0.6);
-  backdrop-filter: blur(6px);
+  background: rgba(7, 6, 10, 0.75);
+  backdrop-filter: blur(10px);
   max-width: 600px;
 }
 .contract-label {
@@ -660,10 +710,7 @@ body {
 #copy-btn .copy-done { display: none; }
 #copy-btn.copied .copy-label { display: none; }
 #copy-btn.copied .copy-done { display: inline; }
-#copy-btn.copied {
-  background: var(--gold-bright);
-  color: #000;
-}
+#copy-btn.copied { background: var(--gold-bright); }
 
 .contract-note {
   font-family: var(--font-mono);
@@ -701,28 +748,41 @@ body {
 
 .disclaimer {
   margin-top: 4rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--rule);
+  padding: 2.5rem 2rem;
+  border: 1px solid var(--gold-dim);
+  background:
+    linear-gradient(135deg, rgba(74, 63, 40, 0.15) 0%, rgba(7, 6, 10, 0.6) 100%);
   text-align: center;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
+  backdrop-filter: blur(6px);
+}
+.disclaimer::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--rule-faint);
+  pointer-events: none;
 }
 .disclaimer-title {
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font-family: var(--font-display);
+  font-style: italic;
   font-weight: 500;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.75rem;
+  font-size: 1.4rem;
+  color: var(--gold-bright);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 .disclaimer p {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  line-height: 1.75;
-  color: var(--text-dim);
-  margin-bottom: 1.25rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-mid);
+  margin-bottom: 1rem;
   font-weight: 300;
   text-wrap: pretty;
 }
@@ -737,20 +797,25 @@ body {
   position: relative;
   z-index: 2;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(212, 175, 55, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 70%),
     var(--bg);
 }
-.footer-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-}
+.footer-inner { max-width: var(--max-w); margin: 0 auto; }
 .footer-ball {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  display: block;
+  filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.5));
+  animation: orbBreathe 7s ease-in-out infinite;
+}
+.footer-ball-text {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   color: var(--gold);
   letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 .footer-line {
   font-family: var(--font-display);
@@ -794,16 +859,10 @@ body {
     transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
 .chapter .fade-in:nth-child(2) { transition-delay: 0.08s; }
 .chapter .fade-in:nth-child(3) { transition-delay: 0.16s; }
 .chapter .fade-in:nth-child(4) { transition-delay: 0.24s; }
-.laws .fade-in,
-.stats .fade-in,
-.ritual .fade-in { transition-delay: 0s; }
 
 /* =========================================================
    RESPONSIVE
@@ -817,12 +876,14 @@ body {
   body { font-size: 15px; }
   .chapter { padding: 5rem 1.25rem; min-height: auto; }
   .hero { min-height: 100vh; }
-  .orb-wrap { width: 140px; height: 140px; margin-bottom: 2rem; }
-  .rail { right: 1rem; gap: 0.85rem; }
+  .hero-orb { width: 140px; height: 140px; margin-bottom: 2rem; }
+  .rail { right: 0.75rem; gap: 0.85rem; }
   .rail a { font-size: 0; }
-  .rail a::before { width: 6px; height: 6px; }
-  .hero-label, .chapter-label { font-size: 9px; gap: 0.75rem; }
-  .hero-label .rule, .chapter-label .rule { width: 24px; }
+  .rail-ball { width: 8px; height: 8px; }
+  .rail a.active .rail-ball { width: 11px; height: 11px; }
+  .hero-label, .chapter-label { font-size: 9px; gap: 0.75rem; letter-spacing: 0.25em; }
+  .hero-label .label-rule, .chapter-label .label-rule { width: 20px; }
+  .label-rule-flex { max-width: 80px; }
   .prose p { font-size: 1.25rem; }
   .prose .lead { font-size: 1.6rem; }
   .prose .quote { font-size: 1.35rem; }
@@ -843,7 +904,6 @@ body {
   .stats { grid-template-columns: 1fr; }
   .title { font-size: 4rem; }
   .chapter-label { font-size: 8px; }
-  .chapter-label .rule { width: 16px; }
 }
 
 /* ===== Reduced motion ===== */

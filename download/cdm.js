@@ -1,19 +1,27 @@
 /* =========================================================
    $CDM — the ball that never stops rolling
-   Scripts: particle background, scroll-triggered fade-ins,
-            progress line, copy-to-clipboard, side rail,
-            image parallax, smooth scroll.
+   Scripts: unified visual system
+   --------------------------------------------------------
+   - Gold dust particle field (the ball's shed material)
+   - Rolling ball progress (the ball literally rolls across the top)
+   - Side rail with active ball glow
+   - Parallax on chapter backgrounds
+   - Hero orb mouse parallax
+   - Smooth scroll
+   - Copy contract
    ========================================================= */
 
 (function () {
   "use strict";
 
-  /* ---------- 1. Gold dust particle background ---------- */
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fineCursor = window.matchMedia("(pointer: fine)").matches;
+
+  /* ---------- 1. Gold dust particle field ---------- */
+  /* The ball sheds gold particles as it rolls. They drift up slowly,
+     like dust motes caught in amber light. */
   const canvas = document.getElementById("particles");
-  let ctx = null;
-  let particles = [];
-  let canvasW = 0, canvasH = 0;
-  let prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let ctx = null, particles = [], canvasW = 0, canvasH = 0;
 
   function initCanvas() {
     if (!canvas) return;
@@ -31,20 +39,21 @@
     canvas.height = canvasH * dpr;
     canvas.style.width = canvasW + "px";
     canvas.style.height = canvasH + "px";
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
   }
 
   function buildParticles() {
-    const count = Math.min(80, Math.floor((canvasW * canvasH) / 18000));
+    const count = Math.min(70, Math.floor((canvasW * canvasH) / 22000));
     particles = [];
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvasW,
         y: Math.random() * canvasH,
-        r: Math.random() * 1.4 + 0.3,
-        vy: -(Math.random() * 0.25 + 0.05),
-        vx: (Math.random() - 0.5) * 0.1,
-        alpha: Math.random() * 0.6 + 0.15,
+        r: Math.random() * 1.3 + 0.3,
+        vy: -(Math.random() * 0.22 + 0.04),
+        vx: (Math.random() - 0.5) * 0.08,
+        alpha: Math.random() * 0.55 + 0.15,
         twinkle: Math.random() * Math.PI * 2,
       });
     }
@@ -57,7 +66,7 @@
       const p = particles[i];
       p.x += p.vx;
       p.y += p.vy;
-      p.twinkle += 0.02;
+      p.twinkle += 0.018;
       const tw = (Math.sin(p.twinkle) + 1) / 2;
       const alpha = p.alpha * (0.4 + tw * 0.6);
 
@@ -87,17 +96,21 @@
     });
   }
 
-  /* ---------- 2. Progress line ---------- */
-  const progressLine = document.querySelector(".progress-line span");
+  /* ---------- 2. Rolling ball progress ---------- */
+  /* The ball rolls across the top edge as you scroll, completing
+     the journey from Bounce 0 to Bounce IX. */
+  const progressLine = document.querySelector(".progress-line");
+  const progressBall = document.querySelector(".progress-ball");
+
   function updateProgress() {
-    if (!progressLine) return;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrolled = window.scrollY;
     const pct = docHeight > 0 ? (scrolled / docHeight) * 100 : 0;
-    progressLine.style.width = pct + "%";
+    if (progressLine) progressLine.style.width = pct + "%";
+    if (progressBall) progressBall.style.left = pct + "%";
   }
 
-  /* ---------- 3. Fade-in on scroll ---------- */
+  /* ---------- 3. Fade-in observer ---------- */
   const fadeEls = document.querySelectorAll(".fade-in");
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
@@ -116,26 +129,10 @@
     fadeEls.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  /* ---------- 4. Throttled scroll (progress + rail) ---------- */
+  /* ---------- 4. Side rail active state ---------- */
   const railLinks = document.querySelectorAll(".rail a");
   const chapterEls = document.querySelectorAll(".chapter");
 
-  let ticking = false;
-  window.addEventListener("scroll", function () {
-    if (!ticking) {
-      window.requestAnimationFrame(function () {
-        updateProgress();
-        updateRail();
-        updateParallax();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
-  updateProgress();
-  updateRail();
-
-  /* ---------- 5. Side rail active state ---------- */
   function updateRail() {
     if (!railLinks.length) return;
     let activeIdx = 0;
@@ -151,7 +148,43 @@
     });
   }
 
-  /* ---------- 6. Copy contract address ---------- */
+  /* ---------- 5. Parallax on chapter backgrounds ---------- */
+  /* The ball's moments drift slightly slower than the scroll,
+     like memories persisting as you pass through them. */
+  const parallaxEls = document.querySelectorAll("[data-parallax]");
+  function updateParallax() {
+    if (!parallaxEls.length || !fineCursor || prefersReduced) return;
+    const viewportH = window.innerHeight;
+    parallaxEls.forEach(function (el) {
+      const rect = el.getBoundingClientRect();
+      const elCenter = rect.top + rect.height / 2;
+      const viewportCenter = viewportH / 2;
+      const distance = elCenter - viewportCenter;
+      const speed = parseFloat(el.dataset.parallax) || 0.12;
+      const offset = distance * speed;
+      const img = el.querySelector("img");
+      if (img) img.style.transform = "translate3d(0, " + offset + "px, 0)";
+    });
+  }
+
+  /* ---------- 6. Throttled scroll ---------- */
+  let ticking = false;
+  window.addEventListener("scroll", function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        updateProgress();
+        updateRail();
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+  updateProgress();
+  updateRail();
+  updateParallax();
+
+  /* ---------- 7. Copy contract ---------- */
   const copyBtn = document.getElementById("copy-btn");
   const addressEl = document.getElementById("contract-address");
   if (copyBtn && addressEl) {
@@ -163,9 +196,7 @@
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(showCopied).catch(fallbackCopy);
-      } else {
-        fallbackCopy();
-      }
+      } else { fallbackCopy(); }
       function fallbackCopy() {
         const range = document.createRange();
         range.selectNode(addressEl);
@@ -178,7 +209,7 @@
     });
   }
 
-  /* ---------- 7. Smooth scroll for in-page links ---------- */
+  /* ---------- 8. Smooth scroll for in-page links ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener("click", function (e) {
       const targetId = this.getAttribute("href");
@@ -192,33 +223,16 @@
     });
   });
 
-  /* ---------- 8. Hero orb subtle mouse parallax ---------- */
-  const orbWrap = document.querySelector(".orb-wrap");
-  if (orbWrap && window.matchMedia("(pointer: fine)").matches) {
+  /* ---------- 9. Hero orb mouse parallax ---------- */
+  const orbWrap = document.querySelector(".hero-orb");
+  if (orbWrap && fineCursor && !prefersReduced) {
     const hero = document.querySelector(".hero");
     hero.addEventListener("mousemove", function (e) {
       const rect = hero.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-      orbWrap.style.transform = "translate(" + (x * 12) + "px, " + (y * 12) + "px)";
+      orbWrap.style.transform = "translate(" + (x * 14) + "px, " + (y * 14) + "px)";
     });
     hero.addEventListener("mouseleave", function () { orbWrap.style.transform = ""; });
-  }
-
-  /* ---------- 9. Parallax on chapter background images ---------- */
-  const parallaxEls = document.querySelectorAll("[data-parallax]");
-  function updateParallax() {
-    if (!parallaxEls.length || !window.matchMedia("(pointer: fine)").matches) return;
-    const viewportH = window.innerHeight;
-    parallaxEls.forEach(function (el) {
-      const rect = el.getBoundingClientRect();
-      const elCenter = rect.top + rect.height / 2;
-      const viewportCenter = viewportH / 2;
-      const distance = elCenter - viewportCenter;
-      const speed = parseFloat(el.dataset.parallax) || 0.15;
-      const offset = distance * speed;
-      const img = el.querySelector("img");
-      if (img) img.style.transform = "translate3d(0, " + offset + "px, 0)";
-    });
   }
 })();
