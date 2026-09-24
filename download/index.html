@@ -4,36 +4,57 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="$CDM — the ball that never stops rolling. Solana. Fair launch." />
+<meta name="theme-color" content="#0a0a0a" />
+<meta name="color-scheme" content="dark" />
 <title>$CDM — the ball that never stops rolling</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cdm.css" />
 </head>
 <body>
 
+<!-- Particle canvas (gold dust) -->
+<canvas id="particles" aria-hidden="true"></canvas>
+
 <!-- Grain overlay -->
 <div class="grain" aria-hidden="true"></div>
 
-<!-- Progress line -->
-<div class="progress-line" aria-hidden="true"><span></span></div>
+<!-- Side rail -->
+<nav class="rail" aria-label="Chapters">
+  <a href="#chapter-1" data-target="chapter-1"><span class="rail-num">I</span></a>
+  <a href="#chapter-2" data-target="chapter-2"><span class="rail-num">II</span></a>
+  <a href="#chapter-3" data-target="chapter-3"><span class="rail-num">III</span></a>
+  <a href="#chapter-4" data-target="chapter-4"><span class="rail-num">IV</span></a>
+  <a href="#chapter-5" data-target="chapter-5"><span class="rail-num">V</span></a>
+  <a href="#chapter-6" data-target="chapter-6"><span class="rail-num">VI</span></a>
+  <a href="#chapter-7" data-target="chapter-7"><span class="rail-num">VII</span></a>
+  <a href="#chapter-8" data-target="chapter-8"><span class="rail-num">VIII</span></a>
+  <a href="#chapter-9" data-target="chapter-9"><span class="rail-num">IX</span></a>
+</nav>
 
 <!-- ============== HERO ============== -->
 <header class="hero" id="top">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-vignette" aria-hidden="true"></div>
   <div class="hero-inner">
+    <p class="hero-label fade-in"><span class="rule"></span>BOUNCE I &mdash; AWAKENING<span class="rule"></span></p>
+
     <div class="orb-wrap fade-in">
       <img src="img/hero-orb.jpg" alt="" class="orb-img" />
       <div class="orb-glow" aria-hidden="true"></div>
     </div>
 
-    <p class="eyebrow fade-in">Solana &middot; Fair Launch</p>
-    <h1 class="title fade-in">$CDM</h1>
+    <h1 class="title fade-in"><span class="title-gold">$CDM</span></h1>
+    <p class="hero-tagline fade-in">THE NINE BOUNCES</p>
     <p class="subtitle fade-in"><em>the ball that never stops rolling.</em></p>
+    <p class="hero-meta fade-in">#CDM &middot; SOLANA &middot; FAIR LAUNCH</p>
+
+    <div class="hero-cta fade-in">
+      <a href="#chapter-9" class="btn btn-primary">GET $CDM</a>
+      <a href="#chapter-1" class="btn btn-ghost">BEGIN THE STORY &darr;</a>
+    </div>
 
     <a href="#chapter-1" class="scroll-cue fade-in" aria-label="Enter">
-      <span>enter</span>
+      <span>SCROLL</span>
       <span class="line"></span>
     </a>
   </div>
@@ -42,168 +63,166 @@
 <main>
 
   <!-- ============== I — AWAKENING ============== -->
-  <section class="chapter" id="chapter-1">
+  <section class="chapter chapter-narrative" id="chapter-1">
     <div class="chapter-inner">
-      <p class="numeral fade-in">I</p>
-      <h2 class="chapter-title fade-in">Awakening</h2>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE I &mdash; AWAKENING<span class="rule"></span></p>
       <div class="prose fade-in">
-        <p>It did not begin with a hand. It did not begin with a throw. There was only the ground, and the ball, and the long quiet before.</p>
-        <p>Then — without cause, without witness — it moved. Not because it was pushed. Not because it chose. The ball began to roll because that is what a ball, given time, will do.</p>
-        <p>It has not stopped since.</p>
+        <p class="lead">It did not begin with a hand.</p>
+        <p>It did not begin with a throw. There was only the ground, and the ball, and the long quiet before.</p>
+        <p>Then &mdash; without cause, without witness &mdash; it moved. Not because it was pushed. Not because it chose.</p>
+        <p class="quote">The ball began to roll because that is what a ball, given time, will do.</p>
+        <p class="quote-em">It has not stopped since.</p>
       </div>
     </div>
   </section>
 
   <!-- ============== II — THE OMEN ============== -->
-  <section class="chapter" id="chapter-2">
+  <section class="chapter chapter-narrative" id="chapter-2">
     <div class="chapter-inner">
-      <p class="numeral fade-in">II</p>
-      <h2 class="chapter-title fade-in">The Omen</h2>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE II &mdash; THE OMEN<span class="rule"></span></p>
       <div class="prose fade-in">
-        <p>Before the chain, before the ledger, before the first wallet ever opened — there were signs.</p>
+        <p class="lead">Before the chain, before the ledger,</p>
+        <p>before the first wallet ever opened &mdash; there were signs.</p>
         <p>A circle pressed into dust. A worn groove along a stone wall. The slow, perfect wear of a thing returning again and again to the same point, never quite arriving, never quite leaving.</p>
-        <p>Whoever saw it first did not understand. They did not need to. The ball did not ask to be understood. It only asked for ground.</p>
+        <p class="quote">Whoever saw it first did not understand.</p>
+        <p class="quote-em">They did not need to. The ball did not ask to be understood. It only asked for ground.</p>
       </div>
     </div>
   </section>
 
   <!-- ============== III — THE COIN ============== -->
-  <section class="chapter" id="chapter-3">
+  <section class="chapter chapter-narrative" id="chapter-3">
     <div class="chapter-inner">
-      <p class="numeral fade-in">III</p>
-      <h2 class="chapter-title fade-in">The Coin</h2>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE III &mdash; THE COIN<span class="rule"></span></p>
       <div class="prose fade-in">
-        <p>A ball is a perfect thing. No edge to catch, no corner to break, no face to remember or forget. It carries only motion.</p>
-        <p>$CDM is the ball, made countable. A unit of the rolling — pressed flat into a token so that it could be held, sent, and passed along. The shape changes; the motion does not.</p>
-        <p>Hold it, and you hold a fragment of the long roll. Let it go, and the roll continues through other hands.</p>
+        <p class="lead">A ball is a perfect thing.</p>
+        <p>No edge to catch, no corner to break, no face to remember or forget. It carries only motion.</p>
+        <p>$CDM is the ball, made countable. A unit of the rolling &mdash; pressed flat into a token so that it could be held, sent, and passed along. The shape changes; the motion does not.</p>
+        <p class="quote-em">Hold it, and you hold a fragment of the long roll. Let it go, and the roll continues through other hands.</p>
       </div>
     </div>
   </section>
 
   <!-- ============== IV — THE PATH ============== -->
-  <section class="chapter chapter-with-image" id="chapter-4">
+  <section class="chapter chapter-image-bleed" id="chapter-4">
+    <div class="chapter-bg" data-parallax="0.15">
+      <img src="img/path-groove.jpg" alt="A worn circular groove pressed into dark stone" loading="lazy" />
+      <div class="chapter-overlay"></div>
+    </div>
     <div class="chapter-inner">
-      <p class="numeral fade-in">IV</p>
-      <h2 class="chapter-title fade-in">The Path</h2>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE IV &mdash; THE PATH<span class="rule"></span></p>
       <div class="prose fade-in">
-        <p>Every road the ball has traveled, it has traveled once. Every road it will travel, it has already begun.</p>
-        <p>The path is not chosen. The path is the sum of all surfaces that did not refuse it. Solana is one such surface — fast, smooth, almost frictionless. The ball does not prefer it. The ball does not prefer anything.</p>
-        <p>But here, on this chain, the roll can be witnessed by anyone, at any time, without permission. That is enough.</p>
+        <p class="lead">Every road the ball has traveled,</p>
+        <p>it has traveled once. Every road it will travel, it has already begun.</p>
+        <p>The path is not chosen. The path is the sum of all surfaces that did not refuse it. Solana is one such surface &mdash; fast, smooth, almost frictionless. The ball does not prefer it. The ball does not prefer anything.</p>
+        <p class="quote-em">But here, on this chain, the roll can be witnessed by anyone, at any time, without permission. That is enough.</p>
       </div>
-      <figure class="chapter-image fade-in" data-parallax="0.15">
-        <img src="img/path-groove.jpg" alt="A worn circular groove pressed into dark stone, edged with faint gold dust" loading="lazy" />
-        <figcaption>the groove, worn by a single, patient revolution.</figcaption>
-      </figure>
     </div>
   </section>
 
   <!-- ============== V — THE CIRCLE ============== -->
-  <section class="chapter" id="chapter-5">
+  <section class="chapter chapter-narrative" id="chapter-5">
     <div class="chapter-inner">
-      <p class="numeral fade-in">V</p>
-      <h2 class="chapter-title fade-in">The Circle</h2>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE V &mdash; THE CIRCLE<span class="rule"></span></p>
       <div class="prose fade-in">
-        <p>There is no team at the center. There is no center. There is only the circle — the shape the ball makes when many hands, none of them knowing the others, agree to let it pass.</p>
+        <p class="lead">There is no team at the center.</p>
+        <p>There is no center. There is only the circle &mdash; the shape the ball makes when many hands, none of them knowing the others, agree to let it pass.</p>
         <p>To hold $CDM is to stand somewhere on that circle. To send it is to give the roll a new direction. Neither act is rewarded. Neither act is forbidden.</p>
-        <p>The circle does not close. The circle does not need to.</p>
+        <p class="quote-em">The circle does not close. The circle does not need to.</p>
       </div>
     </div>
   </section>
 
   <!-- ============== VI — THE LAW ============== -->
-  <section class="chapter chapter-law" id="chapter-6">
+  <section class="chapter chapter-laws" id="chapter-6">
     <div class="chapter-inner">
-      <p class="numeral fade-in">VI</p>
-      <h2 class="chapter-title fade-in">The Law</h2>
-      <p class="chapter-sub fade-in">Four laws. Carved once. Never amended.</p>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE VI &mdash; THE LAW<span class="rule"></span></p>
+      <h2 class="section-title fade-in">Four laws. Carved once. Never amended.</h2>
 
-      <ol class="laws">
-        <li class="law fade-in">
+      <div class="laws">
+        <div class="law fade-in">
           <span class="law-num">LAW 01</span>
           <span class="law-name">Fair born</span>
           <span class="law-desc">No presale. No allocation. No early hands. The ball was placed on open ground.</span>
-        </li>
-        <li class="law fade-in">
+        </div>
+        <div class="law fade-in">
           <span class="law-num">LAW 02</span>
           <span class="law-name">Supply sealed</span>
           <span class="law-desc">The full supply existed from the first breath. Nothing more can be made.</span>
-        </li>
-        <li class="law fade-in">
+        </div>
+        <div class="law fade-in">
           <span class="law-num">LAW 03</span>
           <span class="law-name">Pool burned</span>
           <span class="law-desc">Liquidity was given to the fire. The roll cannot be halted at the bridge.</span>
-        </li>
-        <li class="law fade-in">
+        </div>
+        <div class="law fade-in">
           <span class="law-num">LAW 04</span>
           <span class="law-name">Nothing taken</span>
           <span class="law-desc">Zero tax on entry. Zero tax on exit. The ball takes nothing from the hand it passes through.</span>
-        </li>
-      </ol>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ============== VII — THE NUMBER ============== -->
   <section class="chapter chapter-numbers" id="chapter-7">
-    <div class="chapter-image-full fade-in" data-parallax="0.2">
+    <div class="chapter-bg" data-parallax="0.18">
       <img src="img/gold-dust.jpg" alt="A swirl of fine gold dust suspended in darkness" loading="lazy" />
-      <div class="image-overlay" aria-hidden="true"></div>
+      <div class="chapter-overlay"></div>
     </div>
     <div class="chapter-inner">
-      <p class="numeral fade-in">VII</p>
-      <h2 class="chapter-title fade-in">The Number</h2>
-      <p class="chapter-sub fade-in">The roll, in figures.</p>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE VII &mdash; THE NUMBER<span class="rule"></span></p>
+      <h2 class="section-title fade-in">The roll, in figures.</h2>
 
-      <div class="stats">
-        <div class="stat fade-in">
-          <span class="stat-value">0<span class="pct">%</span></span>
-          <span class="stat-label">Tax</span>
+      <div class="stats fade-in">
+        <div class="stat">
+          <span class="stat-value">0%</span>
+          <span class="stat-label">Buy / Sell Tax</span>
         </div>
-        <div class="stat fade-in">
-          <span class="stat-value">100<span class="pct">%</span></span>
+        <div class="stat">
+          <span class="stat-value">100%</span>
           <span class="stat-label">LP Burned</span>
         </div>
-        <div class="stat fade-in">
-          <span class="stat-value">Mint</span>
-          <span class="stat-label">Revoked</span>
+        <div class="stat">
+          <span class="stat-value">Revoked</span>
+          <span class="stat-label">Mint Authority</span>
         </div>
-        <div class="stat fade-in">
+        <div class="stat">
           <span class="stat-value">0</span>
           <span class="stat-label">Team Tokens</span>
         </div>
-        <div class="stat fade-in">
-          <span class="stat-value">0</span>
-          <span class="stat-label">Presale</span>
-        </div>
-        <div class="stat fade-in">
-          <span class="stat-value">1,000,000,000</span>
-          <span class="stat-label">Total Supply</span>
-        </div>
       </div>
+      <p class="stats-meta fade-in">Total Supply &nbsp;&middot;&nbsp; 1,000,000,000 $CDM &nbsp;&middot;&nbsp; Presale &nbsp;&middot;&nbsp; 0</p>
     </div>
   </section>
 
   <!-- ============== VIII — THE RITUAL ============== -->
   <section class="chapter chapter-ritual" id="chapter-8">
     <div class="chapter-inner">
-      <p class="numeral fade-in">VIII</p>
-      <h2 class="chapter-title fade-in">The Ritual</h2>
-      <p class="chapter-sub fade-in">Three steps. Older than the chain.</p>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE VIII &mdash; THE RITUAL<span class="rule"></span></p>
+      <h2 class="section-title fade-in">Three steps. Older than the chain.</h2>
 
       <ol class="ritual">
         <li class="step fade-in">
           <span class="step-num">01</span>
-          <h3 class="step-title">Set up a wallet</h3>
-          <p class="step-desc">Install Phantom or Solflare on your browser or phone. Create the wallet. Write down the seed phrase by hand, on paper, and put the paper somewhere it will not be found by accident.</p>
+          <div class="step-body">
+            <h3 class="step-title">Set up a wallet</h3>
+            <p class="step-desc">Install Phantom or Solflare on your browser or phone. Create the wallet. Write down the seed phrase by hand, on paper, and put the paper somewhere it will not be found by accident.</p>
+          </div>
         </li>
         <li class="step fade-in">
           <span class="step-num">02</span>
-          <h3 class="step-title">Add SOL</h3>
-          <p class="step-desc">Send Solana to your new wallet address, or buy SOL through the wallet's integrated on-ramp. A small amount is enough. The ball does not ask for much — only for ground.</p>
+          <div class="step-body">
+            <h3 class="step-title">Add SOL</h3>
+            <p class="step-desc">Send Solana to your new wallet address, or buy SOL through the wallet's integrated on-ramp. A small amount is enough. The ball does not ask for much &mdash; only for ground.</p>
+          </div>
         </li>
         <li class="step fade-in">
           <span class="step-num">03</span>
-          <h3 class="step-title">Buy $CDM</h3>
-          <p class="step-desc">Open Jupiter or Raydium. Paste the contract address below. Confirm the swap. The ball is now in your hands. What you do with it next is yours.</p>
+          <div class="step-body">
+            <h3 class="step-title">Buy $CDM</h3>
+            <p class="step-desc">Open Jupiter or Raydium. Paste the contract address below. Confirm the swap. The ball is now in your hands. What you do with it next is yours.</p>
+          </div>
         </li>
       </ol>
     </div>
@@ -211,31 +230,41 @@
 
   <!-- ============== IX — YOURS ============== -->
   <section class="chapter chapter-yours" id="chapter-9">
-    <div class="chapter-image-full fade-in" data-parallax="0.18">
+    <div class="chapter-bg" data-parallax="0.18">
       <img src="img/horizon.jpg" alt="A single dark sphere on an infinite plain under a starless sky" loading="lazy" />
-      <div class="image-overlay" aria-hidden="true"></div>
+      <div class="chapter-overlay"></div>
     </div>
     <div class="chapter-inner">
-      <p class="numeral fade-in">IX</p>
-      <h2 class="chapter-title fade-in">Yours</h2>
-      <p class="chapter-sub fade-in">The address. Nothing more.</p>
+      <p class="chapter-label fade-in"><span class="rule"></span>BOUNCE IX &mdash; YOURS<span class="rule"></span></p>
+      <h2 class="section-title-big fade-in"><em>The ninth bounce is yours.</em></h2>
 
       <div class="contract-block fade-in">
-        <p class="contract-label">Contract Address</p>
+        <p class="contract-label">TOKEN CONTRACT ADDRESS &middot; SOLANA</p>
         <div class="contract-row">
           <code id="contract-address">So11111111111111111111111111111111111111112</code>
           <button id="copy-btn" type="button" aria-label="Copy contract address">
-            <span class="copy-label">copy</span>
-            <span class="copy-done" aria-hidden="true">copied</span>
+            <span class="copy-label">COPY CONTRACT ADDRESS</span>
+            <span class="copy-done" aria-hidden="true">COPIED &mdash; ROLL ON</span>
           </button>
         </div>
-        <p class="contract-note">Solana Mainnet &middot; verify on Solscan or DexScreener before swapping.</p>
+        <p class="contract-note">check it on-chain before you swap &middot; <a href="#" class="link-gold">SOLSCAN</a> &middot; <a href="#" class="link-gold">DEXSCREENER</a></p>
+      </div>
+
+      <div class="cta-row fade-in">
+        <a href="#" class="btn btn-primary">BUY ON JUPITER</a>
+        <a href="#" class="btn btn-ghost">BUY ON RAYDIUM</a>
+      </div>
+
+      <div class="social-row fade-in">
+        <a href="#" class="social-link">X / TWITTER</a>
+        <a href="#" class="social-link">TELEGRAM</a>
+        <a href="#" class="social-link">DEXSCREENER</a>
       </div>
 
       <div class="disclaimer fade-in">
-        <p class="disclaimer-title">A quiet word.</p>
-        <p>$CDM is a meme coin. It has no intrinsic value. It promises nothing. It returns nothing. There is no roadmap, no team, no utility, and no expectation of profit.</p>
-        <p>Do not spend what you cannot afford to lose completely. Do not borrow to buy. Do not believe anyone who tells you what the ball will do next — the ball does not tell, and neither do they.</p>
+        <p class="disclaimer-title">This is a meme coin.</p>
+        <p>$CDM has no intrinsic value. It promises nothing. It returns nothing. There is no roadmap, no team, no utility, and no expectation of profit.</p>
+        <p>Do not spend what you cannot afford to lose completely. Do not borrow to buy. Do not believe anyone who tells you what the ball will do next &mdash; the ball does not tell, and neither do they.</p>
         <p>If the roll stops, it stops. If it continues, it continues without owing you anything. You are not buying a future. You are holding a fragment of a long, quiet motion.</p>
       </div>
     </div>
@@ -245,10 +274,10 @@
 
 <footer class="footer">
   <div class="footer-inner">
-    <p class="footer-ball" aria-hidden="true">$CDM</p>
-    <p class="footer-line">the ball that never stops rolling.</p>
-    <p class="footer-meta">Solana &middot; Fair Launch &middot; No Team &middot; No Utility &middot; No Promise</p>
-    <a href="#top" class="back-to-top">return to the beginning</a>
+    <p class="footer-ball">$CDM</p>
+    <p class="footer-line"><em>the ball that never stops rolling.</em></p>
+    <p class="footer-meta">&copy; 2024 THE $CDM COMMUNITY &nbsp;&middot;&nbsp; BUILD 1.0 &nbsp;&middot;&nbsp; SOLANA &middot; FAIR LAUNCH</p>
+    <a href="#top" class="back-to-top">RETURN TO THE BEGINNING</a>
   </div>
 </footer>
 
