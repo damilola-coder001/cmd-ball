@@ -129,6 +129,38 @@ body {
   to   { transform: rotate(360deg); }
 }
 
+/* ===== Cursor ball — tiny gold ball that follows the pointer ===== */
+.cursor-ball {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px; /* center on pointer */
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+.cursor-ball.visible { opacity: 1; }
+
+.cursor-ball-icon {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.7));
+  animation: cursorBallSpin 1.8s linear infinite;
+}
+@keyframes cursorBallSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Hide on touch devices */
+@media (hover: none), (pointer: coarse) {
+  .cursor-ball { display: none; }
+}
+
 /* ===== Side rail — Roman numerals only ===== */
 .rail {
   position: fixed;

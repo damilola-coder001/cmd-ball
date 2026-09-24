@@ -235,4 +235,41 @@
     });
     hero.addEventListener("mouseleave", function () { orbWrap.style.transform = ""; });
   }
+
+  /* ---------- 10. Cursor ball — tiny gold ball follows the pointer ---------- */
+  /* Uses smoothed lerp so the ball trails slightly behind the cursor,
+     giving it a sense of weight and life rather than snapping. */
+  const cursorBall = document.querySelector(".cursor-ball");
+
+  if (cursorBall && fineCursor && !prefersReduced) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ballX = mouseX;
+    let ballY = mouseY;
+    let rafId = null;
+
+    function moveBall() {
+      // Lerp: ball moves 18% of the remaining distance each frame
+      ballX += (mouseX - ballX) * 0.18;
+      ballY += (mouseY - ballY) * 0.18;
+      cursorBall.style.transform = "translate3d(" + ballX + "px, " + ballY + "px, 0)";
+      // Continue animating until the ball is close enough to the cursor
+      if (Math.abs(mouseX - ballX) > 0.3 || Math.abs(mouseY - ballY) > 0.3) {
+        rafId = requestAnimationFrame(moveBall);
+      } else {
+        rafId = null;
+      }
+    }
+
+    window.addEventListener("mousemove", function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorBall.classList.add("visible");
+      if (!rafId) rafId = requestAnimationFrame(moveBall);
+    });
+
+    window.addEventListener("mouseleave", function () {
+      cursorBall.classList.remove("visible");
+    });
+  }
 })();
