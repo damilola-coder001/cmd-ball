@@ -119,7 +119,7 @@
   });
 
   /* ---------- 6. Subtle parallax on hero ball ---------- */
-  const ballWrap = document.querySelector(".ball-wrap");
+  const ballWrap = document.querySelector(".orb-wrap");
   if (ballWrap && window.matchMedia("(pointer: fine)").matches) {
     const hero = document.querySelector(".hero");
     hero.addEventListener("mousemove", function (e) {
@@ -127,10 +127,47 @@
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
       ballWrap.style.transform =
-        "translate(" + (x * 8) + "px, " + (y * 8) + "px)";
+        "translate(" + (x * 10) + "px, " + (y * 10) + "px)";
     });
     hero.addEventListener("mouseleave", function () {
       ballWrap.style.transform = "";
     });
+  }
+
+  /* ---------- 7. Parallax on chapter images ---------- */
+  const parallaxEls = document.querySelectorAll("[data-parallax]");
+
+  if (parallaxEls.length && window.matchMedia("(pointer: fine)").matches) {
+    let scrollTicking = false;
+
+    function updateParallax() {
+      const viewportH = window.innerHeight;
+      parallaxEls.forEach(function (el) {
+        const rect = el.getBoundingClientRect();
+        const elCenter = rect.top + rect.height / 2;
+        const viewportCenter = viewportH / 2;
+        const distance = elCenter - viewportCenter;
+        const speed = parseFloat(el.dataset.parallax) || 0.15;
+        const offset = distance * speed;
+
+        const img = el.querySelector("img");
+        if (img) {
+          img.style.transform = "translate3d(0, " + offset + "px, 0)";
+        }
+      });
+      scrollTicking = false;
+    }
+
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (!scrollTicking) {
+          window.requestAnimationFrame(updateParallax);
+          scrollTicking = true;
+        }
+      },
+      { passive: true }
+    );
+    updateParallax();
   }
 })();
