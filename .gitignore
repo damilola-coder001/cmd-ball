@@ -1,2 +1,5 @@
+# local environment — never publish
+.env
+
 skills/
 node_modules/
