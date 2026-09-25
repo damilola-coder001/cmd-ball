@@ -1,6 +1,8 @@
 # $CDM — the ball that never stops rolling
 
-### ▶ **[Open the site — `download/index.html`](download/index.html)**
+### ▶ **[Open the live site → https://damilola-coder001.github.io/cmd-ball/](https://damilola-coder001.github.io/cmd-ball/)**
+
+Source of that page: [`download/index.html`](download/index.html) — deployed automatically on every push to `main`.
 
 A single-scroll landing page for **$CDM**, *the ball that never stops rolling*. Solana · fair launch · nine bounces.
 
@@ -53,6 +55,17 @@ npx serve download
 
 Static bundle, so publish the **contents** of `download/` anywhere (Vercel, Netlify, Cloudflare
 Pages, GitHub Pages, any bucket). `index.html` must sit next to `cdm.css`, `cdm.js` and `img/`.
+
+### Live deployment (GitHub Pages)
+
+`main` is wired to GitHub Pages through [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+The workflow uploads the `download/` folder as the Pages artifact, so `scripts/` and `upload/` are
+**not** published — only the site itself. Every push to `main` redeploys automatically.
+
+- **Live URL:** <https://damilola-coder001.github.io/cmd-ball/>
+- Pages source: **GitHub Actions** (`build_type: workflow`), HTTPS enforced
+- The workflow uses `upload-pages-artifact` with `path: download`, so `index.html` lands at the
+  published root
 
 Webfonts are pulled from `fonts.googleapis.com` at runtime, so the visitor needs network access
 for the intended typography (Cormorant Garamond / Inter / JetBrains Mono).
